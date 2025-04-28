@@ -1,4 +1,3 @@
-// ChatGPT Prompt Navigator — contentScript.js  (v 4.1.0 • logo-header-bmc)
 (() => {
   'use strict';
 
@@ -68,13 +67,13 @@
   const clamp = (v,l,h)=>Math.min(Math.max(v,l),h);
   const same  = (a,b)=>a.length===b.length && a.every((v,i)=>v===b[i]);
   const deb   = (fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
-  const save  = (k,v)=>chrome.storage.sync.set({[KEYS[k]]:v});
+  const save  = (k,v)=>browser.storage.sync.set({[KEYS[k]]:v});
   const isEdit = el=>['INPUT','TEXTAREA'].includes(el?.nodeName)||el?.isContentEditable;
 
   /*──────────────────────────────────────
     4 · load prefs then build UI
   ───────────────────────────────────────*/
-  chrome.storage.sync.get(Object.values(KEYS),(d)=>{
+  browser.storage.sync.get(Object.values(KEYS),(d)=>{
     if(typeof d[KEYS.width]  ==='number') width  = clamp(d[KEYS.width] ,WIDTH.min,WIDTH.max);
     if(typeof d[KEYS.height] ==='number') height = clamp(d[KEYS.height],HEIGHT.min,HEIGHT.max);
     if(['top','center','bottom'].includes(d[KEYS.anchor])) anchor=d[KEYS.anchor];
@@ -100,7 +99,7 @@
     document.body.appendChild(sidebar);
 
     /* header with logo + BMC button */
-    const logoURL = chrome.runtime.getURL('logo.png');   // path to your PNG
+    const logoURL = browser.runtime.getURL('logo.png');   // path to your PNG
     sidebar.innerHTML = `
       <div class="navigator-header">
         <img src="${logoURL}" alt="" class="nav-logo">
